@@ -38,8 +38,7 @@ const initMap = function (containerId) {
   const map = L.map(mapElement, {
     center: L.latLng(-41.5134, 173.9612),
     zoom: 10,
-    crs: crs,
-    drawControl: true
+    crs: crs
   })
 
   const baseLayer = L.tileLayer(
@@ -73,6 +72,46 @@ const initMap = function (containerId) {
   )
 
   L.layerGroup([baseLayer, lowResLayer, highResLayer]).addTo(map)
+
+  // Initialise the FeatureGroup to store editable layers
+  const drawnItems = new L.FeatureGroup()
+  map.addLayer(drawnItems)
+
+  // Initialise the draw control and pass it the FeatureGroup of editable layers
+  const drawControl = new L.Control.Draw({
+    edit: {
+        featureGroup: drawnItems
+    }
+  })
+  map.addControl(drawControl)
+
+  map.on('draw:created', function (e) {
+    const type = e.layerType
+    const layer = e.layer
+
+    if (type === 'marker') {
+        // Do marker specific actions
+    }
+
+    if (type === 'polygon') {
+      const area = L.GeometryUtil.geodesicArea(layer.getLatLngs())
+      console.log('Area', area)
+      console.log('LatLngs', layer.getLatLngs())
+    }
+
+    drawnItems.addLayer(layer)
+  })
+
+
+  map.on('draw:edited', function (e) {
+    const layers = e.layers
+    layers.eachLayer(function (layer) {
+      //do whatever you want, most likely save back to db
+      const area = L.GeometryUtil.geodesicArea(layer.getLatLngs())
+      console.log('Area', area)
+      console.log('LatLngs', layer.getLatLngs())
+    })
+  })
 }
 
 export default Ember.Component.extend({
