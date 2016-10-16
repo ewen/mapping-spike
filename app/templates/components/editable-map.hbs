@@ -1,1 +1,72 @@
-<div class="editable-map" style="height: 600px;"></div>
+
+<div style="margin-bottom: 20px; text-align: right;">
+  {{#bs-button-group}}
+    {{#bs-dropdown}}
+      {{#bs-dropdown-button}}Add Item <span class="caret"></span>{{/bs-dropdown-button}}
+      {{#bs-dropdown-menu}}
+        <li><a{{action "addMooring"}}>Add Mooring</a></li>
+        <li><a{{action "addMeter"}}>Add Meter</a></li>
+      {{/bs-dropdown-menu}}
+    {{/bs-dropdown}}
+  {{/bs-button-group}}
+</div>
+
+
+
+<div class="editable-map" style="height: 400px; border: 1px solid #555;"></div>
+
+<div class="map-info row">
+  <div class="col-md-3">
+    <h3>Polygons</h3>
+    <table class="table">
+      <thead>
+      <tr><th>Area</th></tr>
+      </thead>
+      <tbody>
+        {{#each polygons as |polygon|}}
+          <tr><td>{{polygon.area}} m<sup>3</sup></td></tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-3">
+    <h3>Lines</h3>
+    <table class="table">
+      <thead>
+      <tr><th>Length</th></tr>
+      </thead>
+      <tbody>
+        {{#each lines as |line|}}
+          <tr><td>{{line.length}} m</td></tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-3">
+    <h3>Markers</h3>
+    <table class="table">
+      <thead>
+      <tr><th>Position</th></tr>
+      </thead>
+      <tbody>
+        {{#each markers as |marker|}}
+          <tr><td>{{marker.position.lat}}, {{marker.position.lng}}</td></tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-md-3">
+    <h3>Circles</h3>
+    <table class="table">
+      <thead>
+      <tr><th>Radius</th></tr>
+      </thead>
+      <tbody>
+        {{#each circles as |circle|}}
+          <tr><td>{{circle.radius}}m</td></tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
